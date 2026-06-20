@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>මගේ රස රෙසිපි වෙබ් අඩවිය</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fdfdfd; margin: 0; padding: 100px 20px; }
+        .sticky-ad { position: fixed; left: 0; width: 100%; text-align: center; background: #eee; z-index: 1000; padding: 5px 0; }
+        .top { top: 0; } .bottom { bottom: 0; }
+        .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
+        .card { background: white; border-radius: 10px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: scale(1.03); }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 2000; overflow-y: auto; }
+        .modal-content { background: white; width: 90%; max-width: 600px; margin: 50px auto; padding: 20px; border-radius: 10px; position: relative; }
+        .close { float: right; font-size: 30px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="sticky-ad top"> [ඔබේ Adsterra Banner Ad මෙතනට] </div>
+    <h1 style="text-align:center;">රසවත් ආහාර වට්ටෝරු</h1>
+    <div class="recipe-grid" id="container"></div>
+    <div class="sticky-ad bottom"> [ඔබේ Adsterra Banner Ad මෙතනට] </div>
+
+    <div id="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="title"></h2>
+            <p id="desc"></p>
+            <h3>අවශ්‍ය ද්‍රව්‍ය:</h3><ul id="ings"></ul>
+            <h3>සාදන ක්‍රමය:</h3><ol id="steps"></ol>
+        </div>
+    </div>
+
+    <script>
+        const recipes = [
+            {id:1, title:"පරිප්පු කරිය", img:"https://www.archanaskitchen.com/images/archanaskitchen/1-Author/Priyanka_Wickramasinghe/Parippu_Curry_Sri_Lankan_Red_Lentil_Curry.jpg", desc:"රසවත් පරිප්පු කරිය.", ing:["පරිප්පු - කෝප්ප 1", "පොල් කිරි - කෝප්ප 1"], steps:["පරිප්පු සෝදන්න.", "තුනපහ දමා උයන්න.", "පොල් කිරි එක් කරන්න."]},
+            {id:2, title:"චිකන් කරිය", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2021/04/Fish-Curry-Recipe.jpg", desc:"කුළුබඩු සහිත චිකන්.", ing:["චිකන් - ග්‍රෑම් 500", "තුනපහ"], steps:["චිකන් කැබලි සෝදන්න.", "තෙම්පරාදු කර උයන්න."]},
+            {id:3, title:"පොල් සම්බෝල", img:"https://www.sbs.com.au/food/sites/sbs.com.au.food/files/styles/full/public/pol_sambol.jpg", desc:"අලුත් පොල්.", ing:["ගාගත් පොල් - කෝප්ප 1", "මිරිස්"], steps:["සියල්ල එකට අඹරන්න."]},
+            {id:4, title:"මාළු ඇඹුල් තියල්", img:"https://www.yummytummyaarthi.com/wp-content/uploads/2016/06/1-3.jpg", desc:"පැරණි ක්‍රමය.", ing:["මාළු - ග්‍රෑම් 500", "ගොරකා"], steps:["මාළු කපා සෝදන්න.", "ගොරකා දමා උයන්න."]},
+            {id:5, title:"බිත්තර හොද්ද", img:"https://www.archanaskitchen.com/images/archanaskitchen/1-Author/hema_subramanian/Egg_Curry_Recipe.jpg", desc:"උදෑසනට සුදුසුයි.", ing:["බිත්තර - 4", "පොල් කිරි"], steps:["බිත්තර තම්බන්න.", "හොද්ද සාදා බිත්තර එක් කරන්න."]}
+            // ඔබට අවශ්‍ය පරිදි ඉතිරි ඒවාටද මෙසේ img ලින්ක් එකතු කළ හැකියි
+        ];
+
+        const container = document.getElementById('container');
+        recipes.forEach(r => {
+            container.innerHTML += `<div class="card" onclick="openModal(${r.id})">
+                <img src="${r.img}" alt="${r.title}">
+                <h3>${r.title}</h3></div>`;
+        });
+
+        function openModal(id) {
+            const r = recipes.find(x => x.id === id);
+            document.getElementById('title').innerText = r.title;
+            document.getElementById('desc').innerText = r.desc;
+            document.getElementById('ings').innerHTML = r.ing.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('steps').innerHTML = r.steps.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('modal').style.display = 'block';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    </script>
+</body>
+</html>
